@@ -1,86 +1,95 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Contact Us</title>
+  <title>Your Business Name</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
       margin: 0;
-      padding: 0;
+      background: #f7f7f7;
     }
 
-    .container {
-      max-width: 600px;
-      margin: 60px auto;
+    header {
+      background: #333;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    section {
+      max-width: 800px;
+      margin: 40px auto;
       background: white;
       padding: 30px;
       border-radius: 10px;
     }
 
-    h1 {
-      text-align: center;
+    h1, h2 {
+      margin-top: 0;
     }
 
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #333;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #555;
-    }
-
-    .info {
+    .cta {
+      display: block;
       text-align: center;
       margin-top: 20px;
-      color: #666;
+    }
+
+    .cta a {
+      background: #333;
+      color: white;
+      padding: 12px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .cta a:hover {
+      background: #555;
     }
   </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>Contact Us</h1>
+<header>
+  <h1>Your Business Name</h1>
+  <p>Short slogan or value proposition</p>
+</header>
 
-  <!-- FORM (uses Formspree for real emails) -->
-  <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-    
-    <label>Your Name</label>
-    <input type="text" name="name" required>
+<section>
+  <h2>About Us</h2>
+  <p>
+    Describe your business here. What do you offer? Who do you help?
+    Keep it simple and clear.
+  </p>
+</section>
 
-    <label>Your Email</label>
-    <input type="email" name="email" required>
+<section>
+  <h2>Services</h2>
+  <ul>
+    <li>Service 1 – short description</li>
+    <li>Service 2 – short description</li>
+    <li>Service 3 – short description</li>
+  </ul>
+</section>
 
-    <label>Your Message</label>
-    <textarea name="message" rows="5" required></textarea>
+<section>
+  <h2>Why Choose Us</h2>
+  <p>
+    Explain what makes you different: speed, price, quality, experience, etc.
+  </p>
+</section>
 
-    <button type="submit">Send Message</button>
-  </form>
+<section>
+  <h2>Contact</h2>
+  <p>Email: your@email.com</p>
+  <p>Phone: +33 ...</p>
 
-  <div class="info">
-    Or email us directly: <br>
-    <strong>yourbusiness@email.com</strong>
+  <div class="cta">
+    <a href="#">Contact Us</a>
   </div>
-</div>
+</section>
 
 </body>
 </html>
