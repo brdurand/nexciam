@@ -1,103 +1,942 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Nexciam</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ContractPro — Contract Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #002563;
+      --teal:    #008080;
+      --gray:    #808080;
+      --light-gray: #f5f6f8;
+      --mid-gray: #e8eaee;
+      --text:    #1a2035;
+      --muted:   #5a6478;
+      --white:   #ffffff;
+      --border:  #dde1ea;
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f7f7f7;
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      overflow-x: hidden;
     }
 
-    header {
-      background: #333;
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6vw;
+      height: 70px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 16px rgba(0,37,99,0.06);
     }
 
-    section {
-      max-width: 800px;
-      margin: 40px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-    }
-
-    h1, h2 {
-      margin-top: 0;
-    }
-
-    .cta {
-      display: block;
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .cta a {
-      background: #333;
-      color: white;
-      padding: 12px 20px;
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 600;
+      font-size: 1.25rem;
+      letter-spacing: 0.01em;
       text-decoration: none;
-      border-radius: 5px;
+    }
+    /* "Contract" in navy, "Pro" in teal, with a small teal/gray geometric mark */
+    .logo-mark {
+      width: 30px; height: 30px;
+      margin-right: 0.55rem;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .logo-mark svg { width: 100%; height: 100%; }
+    .logo-contract { color: var(--navy); }
+    .logo-pro      { color: var(--teal); }
+
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+      letter-spacing: 0.01em;
+    }
+    .nav-links a:hover { color: var(--navy); }
+
+    .nav-cta {
+      background: var(--navy) !important;
+      color: var(--white) !important;
+      padding: 0.5rem 1.3rem !important;
+      border-radius: 4px;
+      font-weight: 600 !important;
+      font-size: 0.85rem !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: #003080 !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 0;
+      padding-top: 70px;
+      overflow: hidden;
     }
 
-    .cta a:hover {
-      background: #555;
+    .hero-left {
+      padding: 7rem 5vw 7rem 6vw;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.8rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px; height: 2px;
+      background: var(--teal);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 3.8vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      color: var(--navy);
+      margin-bottom: 1.6rem;
+    }
+    h1 span {
+      color: var(--teal);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 460px;
+      font-weight: 400;
+      margin-bottom: 2.8rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 4rem;
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.85rem 2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-primary:hover { background: #003080; transform: translateY(-1px); }
+
+    .btn-outline {
+      color: var(--navy);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.85rem 2rem;
+      border-radius: 4px;
+      text-decoration: none;
+      border: 1.5px solid var(--navy);
+      letter-spacing: 0.02em;
+      transition: background 0.2s, color 0.2s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-outline:hover { background: var(--navy); color: var(--white); }
+
+    /* Key figures strip */
+    .hero-figures {
+      display: flex;
+      gap: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .figure-item {}
+    .figure-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .figure-num sup { font-size: 1rem; color: var(--teal); }
+    .figure-label { font-size: 0.8rem; color: var(--muted); font-weight: 400; line-height: 1.4; }
+
+    /* Hero right panel */
+    .hero-right {
+      height: 100%;
+      min-height: 100vh;
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeIn 1s ease 0.5s forwards;
+    }
+
+    /* Geometric decoration */
+    .hero-right::before {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      border: 80px solid rgba(0, 128, 128, 0.12);
+      top: -100px; right: -150px;
+    }
+    .hero-right::after {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      border: 50px solid rgba(255,255,255,0.04);
+      bottom: -50px; left: -80px;
+    }
+
+    .hero-right-content {
+      position: relative;
+      z-index: 2;
+      padding: 4rem 3rem;
+      width: 100%;
+    }
+
+    .pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .pillar {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-left: 3px solid var(--teal);
+      border-radius: 4px;
+      padding: 1.4rem 1.6rem;
+      transition: background 0.2s, border-left-color 0.2s;
+    }
+    .pillar:hover { background: rgba(255,255,255,0.1); }
+
+    .pillar-num {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--teal);
+      margin-bottom: 0.5rem;
+    }
+    .pillar h3 {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .pillar p {
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.55;
+      font-weight: 300;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 6vw; }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1rem;
+    }
+    .section-tag::before {
+      content: '';
+      display: block;
+      width: 20px; height: 2px;
+      background: var(--teal);
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.75;
+      max-width: 480px;
+      font-weight: 400;
+    }
+
+    /* ── SERVICES ── */
+    .services { background: var(--light-gray); }
+
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: var(--border);
+      border: 1.5px solid var(--border);
+      overflow: hidden;
+    }
+
+    @media (max-width: 900px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .services-grid { grid-template-columns: 1fr; }
+    }
+
+    .service-card {
+      background: var(--white);
+      padding: 2.5rem 2.2rem;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .service-card:hover { background: #fafbff; }
+    .service-card:hover .service-arrow { opacity: 1; transform: translateX(0); }
+
+    .service-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--navy);
+      opacity: 0.08;
+      line-height: 1;
+      margin-bottom: 1.2rem;
+    }
+
+    .service-icon-wrap {
+      width: 44px; height: 44px;
+      background: rgba(0, 128, 128, 0.08);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .service-card h3 {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.7rem;
+      letter-spacing: 0.01em;
+    }
+
+    .service-card p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.7;
+      font-weight: 400;
+    }
+
+    .service-arrow {
+      position: absolute;
+      bottom: 2rem; right: 2rem;
+      color: var(--teal);
+      font-size: 1rem;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    /* ── APPROACH ── */
+    .approach { background: var(--white); }
+    .approach-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    @media (max-width: 800px) {
+      .approach-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { min-height: 60vh; }
+    }
+
+    .steps { display: flex; flex-direction: column; margin-top: 2.5rem; }
+    .step {
+      display: flex;
+      gap: 1.4rem;
+      padding: 1.6rem 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .step:last-child { border-bottom: none; }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .step-body h4 {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.35rem;
+    }
+    .step-body p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* Visual block on right */
+    .approach-visual {
+      background: var(--navy);
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+      padding: 3.5rem 3rem;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .approach-visual::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(160deg, rgba(0,128,128,0.15) 0%, transparent 60%);
+    }
+    .approach-visual-deco {
+      position: absolute;
+      top: 2.5rem; right: 2.5rem;
+      width: 120px; height: 120px;
+      border: 2px solid rgba(0,128,128,0.3);
+      border-radius: 50%;
+    }
+    .approach-visual-deco::after {
+      content: '';
+      position: absolute;
+      inset: 16px;
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: 50%;
+    }
+
+    .approach-quote {
+      position: relative;
+      z-index: 2;
+    }
+    .quote-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      line-height: 0.6;
+      color: var(--teal);
+      opacity: 0.5;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .quote-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--white);
+      line-height: 1.55;
+      font-style: italic;
+      margin-bottom: 1.2rem;
+    }
+    .quote-author {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.45);
+      font-weight: 400;
+    }
+
+    /* ── CONTACT ── */
+    .contact-section { background: var(--light-gray); }
+
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    @media (max-width: 800px) {
+      .contact-wrapper { grid-template-columns: 1fr; gap: 3rem; }
+    }
+
+    .contact-info {}
+    .contact-info h2 { margin-bottom: 1rem; }
+    .contact-info p { color: var(--muted); line-height: 1.75; margin-bottom: 2.5rem; font-size: 0.95rem; }
+
+    .contact-details { display: flex; flex-direction: column; gap: 1.2rem; }
+    .contact-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .detail-icon {
+      width: 38px; height: 38px;
+      background: rgba(0,37,99,0.08);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .detail-text { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+    .detail-text strong { display: block; color: var(--navy); font-weight: 600; margin-bottom: 0.15rem; }
+
+    /* Form */
+    .contact-form-wrap {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2.5rem;
+      box-shadow: 0 4px 24px rgba(0,37,99,0.06);
+    }
+    .contact-form-wrap h3 {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 1.8rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--light-gray);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      width: 100%;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--teal); background: var(--white); }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: #aab0bf; }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+
+    .form-submit {
+      width: 100%;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 600;
+      font-size: 0.92rem;
+      padding: 0.9rem;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 0.3rem;
+    }
+    .form-submit:hover { background: #003080; transform: translateY(-1px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      padding: 2.5rem 6vw;
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo { display: flex; align-items: center; gap: 0; }
+    .footer-logo .logo-contract { color: var(--white); font-family: 'Source Sans 3', sans-serif; font-weight: 600; font-size: 1.05rem; }
+    .footer-logo .logo-pro { color: var(--teal); font-family: 'Source Sans 3', sans-serif; font-weight: 600; font-size: 1.05rem; }
+    .footer-tagline {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.04em;
+    }
+    footer p { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
     }
   </style>
 </head>
-
 <body>
 
-<header>
-  <h1>Nexciam</h1>
-  <p>CONTRACT MANAGEMENT</p>
-  <p>MAÎTRISEZ VOS CONTRATS.
-SÉCURISEZ
-VOTRE BUSINESS.</p>
-</header>
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Geometric mark: overlapping square shapes in teal & gray -->
+          <rect x="2" y="8" width="16" height="16" rx="2" fill="#808080" opacity="0.5"/>
+          <rect x="10" y="4" width="16" height="16" rx="2" fill="#008080"/>
+          <rect x="12" y="12" width="8" height="8" rx="1" fill="#002563"/>
+        </svg>
+      </span>
+      <span class="logo-contract">Contract</span><span class="logo-pro">Pro</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#approche">Notre approche</a></li>
+      <li><a href="#contact" class="nav-cta">Nous contacter</a></li>
+    </ul>
+  </nav>
 
-<section>
-  <h2>MAÎTRISEZ VOS CONTRATS. SÉCURISEZ VOTRE BUSINESS.</h2>
-  <p>
-    "Un contrat bien piloté n'est pas une contrainte — c'est un avantage concurrentiel."
-  </p>
-</section>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Contract Management</div>
+      <h1>Maîtrisez vos contrats<br>sécurisez votre <span>business</span></h1>
+      <p class="hero-sub">
+        Nous accompagnons les entreprises dans la gestion, la négociation et l'optimisation de leurs contrats pour réduire les risques et maximiser la valeur.
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Prendre rendez-vous →</a>
+        <a href="#services" class="btn-outline">Nos services</a>
+      </div>
+      <div class="hero-figures">
+        <div class="figure-item">
+          <div class="figure-num">10<sup>+</sup></div>
+          <div class="figure-label">Années<br>d'expérience</div>
+        </div>
+        <div class="figure-item">
+          <div class="figure-num">50<sup>+</sup></div>
+          <div class="figure-label">Clients<br>accompagnés</div>
+        </div>
+        <div class="figure-item">
+          <div class="figure-num">98<sup>%</sup></div>
+          <div class="figure-label">Satisfaction<br>client</div>
+        </div>
+      </div>
+    </div>
 
-<section>
-  <h2>Conseil et accompagnement spécialisé pour les entreprises qui veulent transformer leurs contrats en levier de performance.</h2>
-  <h3>Rédaction & Négociation</h3>
-  <p>Conception de contrats sur mesure et conduite de négociations stratégiques pour défendre vos positions.</p>
-  <h3>Audit Contractuel</h3>
-  <p>Analyse approfondie de vos portefeuilles contractuels : identification des risques, failles et leviers d'amélioration cachés.</p>
-  <h3>Cycle de Vie</h3>
-  <p>Suivi structuré des échéances, renouvellements et obligations pour ne jamais manquer une date critique.</p>
-  <h3>Gestion des Litiges</h3>
-  <p>Prévention et résolution des conflits avec une approche pragmatique orientée résultats.</p>
-  <h3>Optimisation</h3>
-  <p>Extraction de la valeur cachée dans vos engagements commerciaux et fournisseurs.</p> 
-  <h3>Formation & Conseil — Montée en compétences de vos équipes internes/h3>
-  <p>Transfert de savoir-faire sur les meilleures pratiques du contract management pour autonomiser vos équipes.</p> </section>
-
-<section>
-  <h2>Why Choose Us</h2>
-  <p>
-    Explain what makes you different: speed, price, quality, experience, etc.
-  </p>
-</section>
-
-<section>
-  <h2>Contact</h2>
-  <p>Email: your@email.com</p>
-  <p>Phone: +33 ...</p>
-
-  <div class="cta">
-    <a href="#">Contact Us</a>
+    <div class="hero-right">
+      <div class="hero-right-content">
+        <div class="pillars">
+          <div class="pillar">
+            <div class="pillar-num">01 — SÉCURISATION</div>
+            <h3>Maîtrise du risque contractuel</h3>
+            <p>Identification et réduction des expositions juridiques et opérationnelles dans vos contrats.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">02 — OPTIMISATION</div>
+            <h3>Maximisation de la valeur</h3>
+            <p>Extraction de la valeur cachée dans vos portefeuilles contractuels fournisseurs et clients.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">03 — GOUVERNANCE</div>
+            <h3>Pilotage & Conformité</h3>
+            <p>Mise en place de processus robustes pour un suivi rigoureux de vos obligations contractuelles.</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</section>
 
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="services-header reveal">
+      <div>
+        <div class="section-tag">Nos expertises</div>
+        <h2>Ce que nous faisons</h2>
+      </div>
+      <p class="section-desc">
+        Un accompagnement complet sur l'ensemble du cycle de vie contractuel.
+      </p>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-icon-wrap">📋</div>
+        <h3>Rédaction & Négociation</h3>
+        <p>Élaboration de contrats sur mesure et conduite de négociations stratégiques pour défendre vos positions.</p>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-icon-wrap">🔍</div>
+        <h3>Audit Contractuel</h3>
+        <p>Analyse approfondie de vos contrats existants : identification des risques, failles et leviers d'amélioration.</p>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-icon-wrap">⚙️</div>
+        <h3>Gestion du Cycle de Vie</h3>
+        <p>Suivi structuré des échéances, renouvellements et obligations pour ne jamais manquer une date critique.</p>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <div class="service-icon-wrap">🛡️</div>
+        <h3>Gestion des Litiges</h3>
+        <p>Prévention et résolution des conflits contractuels avec une approche pragmatique orientée résultats.</p>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-card">
+        <div class="service-num">05</div>
+        <div class="service-icon-wrap">📈</div>
+        <h3>Optimisation & Performance</h3>
+        <p>Identification des leviers pour maximiser la valeur de vos engagements commerciaux et fournisseurs.</p>
+        <span class="service-arrow">→</span>
+      </div>
+      <div class="service-card">
+        <div class="service-num">06</div>
+        <div class="service-icon-wrap">🎓</div>
+        <h3>Formation & Conseil</h3>
+        <p>Transfert de compétences et montée en expertise de vos équipes internes sur les bonnes pratiques.</p>
+        <span class="service-arrow">→</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPROACH -->
+  <section class="approach" id="approche">
+    <div class="approach-inner">
+      <div class="reveal">
+        <div class="section-tag">Notre méthode</div>
+        <h2>Une approche structurée, des résultats mesurables</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h4>Diagnostic initial</h4>
+              <p>Analyse de votre situation contractuelle actuelle, identification des enjeux et définition des priorités d'action.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h4>Plan d'action personnalisé</h4>
+              <p>Conception d'une feuille de route adaptée à votre secteur, votre taille et vos objectifs stratégiques.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h4>Mise en œuvre & suivi</h4>
+              <p>Accompagnement opérationnel sur le terrain, avec des points de suivi réguliers et des indicateurs clairs.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <h4>Transfert & pérennisation</h4>
+              <p>Montée en compétences de vos équipes pour une autonomie durable sur la gestion contractuelle.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="approach-visual reveal">
+        <div class="approach-visual-deco"></div>
+        <div class="approach-quote">
+          <span class="quote-mark">"</span>
+          <p class="quote-text">Un contrat bien géré n'est pas seulement un outil juridique — c'est un levier de performance et de confiance.</p>
+          <p class="quote-author">Notre philosophie du contract management</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section" id="contact">
+    <div class="contact-wrapper">
+      <div class="contact-info reveal">
+        <div class="section-tag">Parlons de votre projet</div>
+        <h2>Contactez-nous</h2>
+        <p>Vous souhaitez en savoir plus sur nos services ou discuter d'un besoin spécifique ? Nous sommes à votre écoute.</p>
+        <div class="contact-details">
+          <div class="contact-detail">
+            <div class="detail-icon">📧</div>
+            <div class="detail-text">
+              <strong>Email</strong>
+              contact@contractpro.fr
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="detail-icon">📞</div>
+            <div class="detail-text">
+              <strong>Téléphone</strong>
+              +33 (0)1 XX XX XX XX
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="detail-icon">📍</div>
+            <div class="detail-text">
+              <strong>Localisation</strong>
+              Paris & interventions sur toute la France
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="detail-icon">🕐</div>
+            <div class="detail-text">
+              <strong>Délai de réponse</strong>
+              Sous 24 heures ouvrées
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap reveal">
+        <h3>Envoyer un message</h3>
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Prénom & Nom *</label>
+              <input type="text" placeholder="Marie Dupont" required />
+            </div>
+            <div class="form-group">
+              <label>Société</label>
+              <input type="text" placeholder="Votre entreprise" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email *</label>
+              <input type="email" placeholder="contact@societe.fr" required />
+            </div>
+            <div class="form-group">
+              <label>Téléphone</label>
+              <input type="tel" placeholder="+33 6 XX XX XX XX" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Votre message *</label>
+            <textarea placeholder="Décrivez votre besoin ou votre projet…" required></textarea>
+          </div>
+          <button type="submit" class="form-submit">Envoyer le message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">
+          <span class="logo-contract">Contract</span><span class="logo-pro">Pro</span>
+        </div>
+        <div class="footer-tagline" style="margin-top: 0.4rem;">Contract Management · Conseil & Accompagnement</div>
+      </div>
+      <p>© 2025 ContractPro · Tous droits réservés</p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 100);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+    reveals.forEach(el => observer.observe(el));
+
+    // Form submit
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-submit');
+      btn.textContent = '✓ Message envoyé — nous vous répondrons sous 24h';
+      btn.style.background = '#008080';
+      btn.disabled = true;
+    }
+  </script>
 </body>
 </html>
