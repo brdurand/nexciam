@@ -198,9 +198,23 @@
     /* ══════════════════════════════
        MOBILE — stacked single column
     ══════════════════════════════ max-width: 640px */
-    @media (pointer:coarse) {
+    @media screen and (orientation:portrait) and (pointer: coarse){
       html, body { overflow: auto; }
       .page { grid-template-columns: 1fr; min-height: 40vh; }
+
+      /* right (brand+contacts) first, left (hero) second */
+      .right { order: 2; border-left: none; border-bottom: 3px solid var(--teal); padding: 10vw 8vw; animation: none; opacity: 1; gap: 2rem; }
+      .left  { order: 1; padding: 10vw 8vw; animation: none; opacity: 1; }
+
+      .brand-logo { width: 60px; height: 60px; }
+      .brand-name { font-size: 3rem; }
+      .brand-moto { font-size: 0.8rem; }
+      .hero-h1 { font-size: 1.8rem; }
+      .c-ico-btn { width: 40px; height: 40px; font-size: 0.95rem; }
+    } 
+    @media screen and (orientation:landscape) and (pointer: coarse){
+      html, body { overflow: auto; }
+      .page { grid-template-rows: 1fr; min-height: 40vh; }
 
       /* right (brand+contacts) first, left (hero) second */
       .right { order: 2; border-left: none; border-bottom: 3px solid var(--teal); padding: 10vw 8vw; animation: none; opacity: 1; gap: 2rem; }
